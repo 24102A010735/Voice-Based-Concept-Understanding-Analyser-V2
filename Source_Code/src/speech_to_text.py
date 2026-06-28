@@ -6,7 +6,7 @@ import os
 class SpeechToText:
     def __init__(self):
         # Load Whisper model once
-        self.model = whisper.load_model("base")
+        self.model = whisper.load_model("tiny")
 
     def transcribe_audio(self, uploaded_file):
         """
