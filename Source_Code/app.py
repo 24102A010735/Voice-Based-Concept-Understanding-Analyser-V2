@@ -124,18 +124,7 @@ if audio is not None:
                 features["filler_count"],
                 features["energy"]
             )
-            # pdf = PDFReport()
-
-            # pdf_path = pdf.generate(
-            #     topic,
-            #     transcript,
-            #     score,
-            #     feedback,
-            #     features,
-            #     overall_score,
-            #     grade,
-            #     remark
-            # )
+            
 
         st.success("Analysis Complete!")
 
@@ -225,19 +214,7 @@ if audio is not None:
                 remark
             )
 
-        # =============================
-        # Download PDF Report
-        # =============================
-        # st.subheader("📄 Download Report")
-
-        # with open(pdf_path, "rb") as file:
-
-        #     st.download_button(
-        #         label="📥 Download PDF Report",
-        #         data=file,
-        #         file_name="Voice_Analysis_Report.pdf",
-        #         mime="application/pdf"
-        #     )
+        
         st.balloons()
 
         st.success("🎉 Analysis completed successfully!")
