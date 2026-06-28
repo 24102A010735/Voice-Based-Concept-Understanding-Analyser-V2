@@ -1,14 +1,24 @@
-from sentence_transformers import SentenceTransformer, util
-import json
 
+import json
+import streamlit as st
+from sentence_transformers import SentenceTransformer
+
+@st.cache_resource
+def load_semantic_model():
+    return SentenceTransformer("all-MiniLM-L6-v2")
 
 class SemanticAnalyzer:
 
     def __init__(self):
-        self.model = SentenceTransformer("all-MiniLM-L6-v2")
 
-        with open("data/reference_concepts.json", "r", encoding="utf-8") as file:
-            self.reference = json.load(file)
+        print("Loading SentenceTransformer...")
+
+        self.model = load_semantic_model()
+
+        print("SentenceTransformer Loaded")
+
+        with open("data/reference_concepts.json","r",encoding="utf-8") as f:
+            self.reference=json.load(f)
 
     def analyze(self, topic, transcript):
 
@@ -39,5 +49,5 @@ class SemanticAnalyzer:
 
         else:
             feedback = "🔴 Poor Understanding"
-
+        print("Semantic Analysis Finished")
         return score, feedback

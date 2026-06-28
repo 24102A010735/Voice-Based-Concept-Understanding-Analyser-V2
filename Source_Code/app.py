@@ -4,6 +4,10 @@ from src.semantic_analysis import SemanticAnalyzer
 from src.audio_features import AudioFeatures
 from src.scoring import ScoringEngine
 from src.pdf_report import PDFReport
+import psutil
+import os
+
+st.write(f"RAM Usage: {psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024:.2f} MB")
 
 # -----------------------------
 # Page Configuration
@@ -13,6 +17,9 @@ st.set_page_config(
     page_icon="🎤",
     layout="wide"
 )
+@st.cache_resource
+def load_stt():
+    return SpeechToText()
 # =============================
 # Sidebar
 # =============================
@@ -81,19 +88,23 @@ if audio is not None:
             # -----------------------------
             # Speech to Text
             # -----------------------------
-            stt = SpeechToText()
+            st.write("Loading Whisper...")
+            stt = load_stt()
+            st.write("Transcribing...")
             transcript, audio_path = stt.transcribe_audio(audio)
-
+            st.write("Loading semantic model...")
             # -----------------------------
             # Semantic Analysis
             # -----------------------------
+            
             semantic = SemanticAnalyzer()
-
+            
+            st.write("Calculating similarity...")
             score, feedback = semantic.analyze(
                 topic,
                 transcript
             )
-
+            st.write("Analyzing audio...")
             # -----------------------------
             # Audio Feature Analysis
             # -----------------------------
@@ -116,18 +127,18 @@ if audio is not None:
                 features["filler_count"],
                 features["energy"]
             )
-            pdf = PDFReport()
+            # pdf = PDFReport()
 
-            pdf_path = pdf.generate(
-                topic,
-                transcript,
-                score,
-                feedback,
-                features,
-                overall_score,
-                grade,
-                remark
-            )
+            # pdf_path = pdf.generate(
+            #     topic,
+            #     transcript,
+            #     score,
+            #     feedback,
+            #     features,
+            #     overall_score,
+            #     grade,
+            #     remark
+            # )
 
         st.success("Analysis Complete!")
 
@@ -220,16 +231,16 @@ if audio is not None:
         # =============================
         # Download PDF Report
         # =============================
-        st.subheader("📄 Download Report")
+        # st.subheader("📄 Download Report")
 
-        with open(pdf_path, "rb") as file:
+        # with open(pdf_path, "rb") as file:
 
-            st.download_button(
-                label="📥 Download PDF Report",
-                data=file,
-                file_name="Voice_Analysis_Report.pdf",
-                mime="application/pdf"
-            )
+        #     st.download_button(
+        #         label="📥 Download PDF Report",
+        #         data=file,
+        #         file_name="Voice_Analysis_Report.pdf",
+        #         mime="application/pdf"
+        #     )
         st.balloons()
 
         st.success("🎉 Analysis completed successfully!")
