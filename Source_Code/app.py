@@ -15,6 +15,9 @@ st.set_page_config(
     layout="wide"
 )
 @st.cache_resource
+def load_semantic():
+    return SemanticAnalyzer()
+@st.cache_resource
 def load_stt():
     return SpeechToText()
 # =============================
@@ -94,7 +97,7 @@ if audio is not None:
             # Semantic Analysis
             # -----------------------------
             
-            semantic = SemanticAnalyzer()
+            semantic = load_semantic()
             
             st.write("Calculating similarity...")
             score, feedback = semantic.analyze(
