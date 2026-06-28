@@ -4,10 +4,7 @@ from src.semantic_analysis import SemanticAnalyzer
 from src.audio_features import AudioFeatures
 from src.scoring import ScoringEngine
 from src.pdf_report import PDFReport
-import psutil
-import os
 
-st.write(f"RAM Usage: {psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024:.2f} MB")
 
 # -----------------------------
 # Page Configuration
