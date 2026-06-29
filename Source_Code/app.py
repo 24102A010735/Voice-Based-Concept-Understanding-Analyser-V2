@@ -1,9 +1,5 @@
 import streamlit as st
-from src.speech_to_text import SpeechToText
-from src.semantic_analysis import SemanticAnalyzer
-from src.audio_features import AudioFeatures
-from src.scoring import ScoringEngine
-from src.pdf_report import PDFReport
+import time
 
 
 # -----------------------------
@@ -15,11 +11,30 @@ st.set_page_config(
     layout="wide"
 )
 @st.cache_resource
-def load_semantic():
-    return SemanticAnalyzer()
-@st.cache_resource
-def load_stt():
+def get_stt():
+    from src.speech_to_text import SpeechToText
     return SpeechToText()
+
+@st.cache_resource
+def get_semantic():
+    from src.semantic_analysis import SemanticAnalyzer
+    return SemanticAnalyzer()
+
+@st.cache_resource
+def get_audio():
+    from src.audio_features import AudioFeatures
+    return AudioFeatures()
+
+@st.cache_resource
+def get_scoring():
+    from src.scoring import ScoringEngine
+    return ScoringEngine()
+
+@st.cache_resource
+def get_pdf():
+    from src.pdf_report import PDFReport
+    return PDFReport()
+
 # =============================
 # Sidebar
 # =============================
