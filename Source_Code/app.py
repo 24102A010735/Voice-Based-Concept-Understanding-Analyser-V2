@@ -103,17 +103,19 @@ if audio is not None:
             # -----------------------------
             # Speech to Text
             # -----------------------------
+            start = time.time()
             st.write("Loading Whisper...")
-            stt = load_stt()
+            stt = get_stt()
+            st.success(f"Whisper loaded in {time.time()-start:.2f} sec")
             st.write("Transcribing...")
             transcript, audio_path = stt.transcribe_audio(audio)
             st.write("Loading semantic model...")
             # -----------------------------
             # Semantic Analysis
             # -----------------------------
-            
-            semantic = load_semantic()
-            
+            start = time.time()
+            semantic = get_semantic()
+            st.success(f"Semantic model loaded in {time.time()-start:.2f} sec")
             st.write("Calculating similarity...")
             score, feedback = semantic.analyze(
                 topic,
@@ -123,7 +125,7 @@ if audio is not None:
             # -----------------------------
             # Audio Feature Analysis
             # -----------------------------
-            audio_analysis = AudioFeatures()
+            audio_analysis = get_audio()
 
             features = audio_analysis.analyze(
                 audio_path,
@@ -133,7 +135,7 @@ if audio is not None:
             # -----------------------------
             # Overall Scoring
             # -----------------------------
-            scoring = ScoringEngine()
+            scoring = get_scoring()
 
             overall_score, grade, remark = scoring.calculate(
                 score,
