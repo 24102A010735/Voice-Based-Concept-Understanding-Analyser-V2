@@ -104,11 +104,17 @@ if audio is not None:
             # Speech to Text
             # -----------------------------
             start = time.time()
-            st.write("Loading Whisper...")
-            stt = get_stt()
-            st.success(f"Whisper loaded in {time.time()-start:.2f} sec")
+            
+            
             st.write("Transcribing...")
-            transcript, audio_path = stt.transcribe_audio(audio)
+            stt = get_stt()
+
+            try:
+                transcript, audio_path = stt.transcribe_audio(audio)
+            except Exception as e:
+                st.error(f"❌ Transcription failed: {e}")
+                st.stop()
+
             st.write("Loading semantic model...")
             # -----------------------------
             # Semantic Analysis
